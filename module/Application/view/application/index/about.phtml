@@ -1,0 +1,24 @@
+<?php
+$this->headTitle('About');
+
+/*$this->mainMenu()->setActiveItemId('about');
+
+this->pageBreadcrumbs()->setItems([
+            'Home'=>$this->url('home'),
+            'About'=>$this->url('about'),
+            ]);
+
+$this->layout()->setTemplate('layout/layout2');*/
+        
+?>
+
+<h1>About</h1>
+
+<p>
+    Application name: <?= $this->escapeHtml($appName) ?>
+</p>
+
+<p>
+    <a href="<?php echo $this->url('contactus'); ?>">Feedback Form</a> 
+        This page shows the usage of a feedback form.
+</p>
