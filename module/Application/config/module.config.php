@@ -47,26 +47,11 @@ return [
                     ],
                 ],
             ],
-            'contactus' => [
-                'type'    => Literal::class,
-                'options' => [
-                    'route'    => '/contactus',
-                    'defaults' => [
-                        'controller'    => Controller\IndexController::class,
-                        'action'        => 'contactUs',
-                    ],
-                ],
-            ],    
         ],
     ],
     'controllers' => [
         'factories' => [
-             Controller\IndexController::class => Controller\Factory\IndexControllerFactory::class,
-        ],
-    ],
-    'service_manager' => [
-        'factories' => [
-            Service\MailSender::class => InvokableFactory::class
+            Controller\IndexController::class => InvokableFactory::class,
         ],
     ],
     'view_manager' => [

@@ -12,29 +12,42 @@ namespace Application\Controller;
 
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
-use Application\Form\ContactForm;
-use Application\Service\MailSender;
+
 
 
 class IndexController extends AbstractActionController
 {
-     /**
-     * Mail sender.
-     * @var Application\Service\MailSender
-     */
-    private $mailSender;
-    
-    /**
-     * Constructor.
-     */
-    public function __construct($mailSender) 
-    {
-        $this->mailSender = $mailSender;
-    }
     
     public function indexAction()
     {
-        return new ViewModel();
+    $products = [
+        [
+            'id' => '09.2019-03.2020',
+            'name' => 'ООО "ИндексИндекс"',
+            'price' => 'Бухгалтер',
+        ],
+        [
+            'id' => '11.2017-07.2018',
+            'name' => 'ПАО "Ростелеком"',
+            'price' => 'Бухгалтер',
+        ],
+        [
+            'id' => '05.2017-07.2017',
+            'name' => 'МРИ ФНС №5 по Ярославской области',
+            'price' =>'Государственный налоговый инспектор',
+        ],
+        [
+            'id' =>'08.2016-02.2017',
+            'name' => 'АО "Райффайзенбанк"',
+            'price' => 'Младший специалист',
+        ],
+       
+    ];
+        // Используем плагин Layout для доступа к объекту ViewModel,
+    // связанному с шаблоном лэйаута.
+    $this->layout()->setTemplate('layout/layout2');
+    
+        return new ViewModel(['products' => $products]);
     }
     /**
      * This is the "about" action. It is used to display the "About" page.
@@ -49,66 +62,39 @@ class IndexController extends AbstractActionController
             
         ]);
     }
-     /**
-     * This action displays the Contact Us page.
-     */
-    public function contactUsAction() 
-    {   
-       // Create Contact Us form
-        $form = new ContactForm();
-        
-        // Check if user has submitted the form
-        if($this->getRequest()->isPost()) {
-            
-            // Fill in the form with POST data
-            $data = $this->params()->fromPost();            
-            
-            $form->setData($data);
-            
-            // Validate form
-            if($form->isValid()) {
-                
-                // Get filtered and validated data
-                $data = $form->getData();
-                $email = $data['email'];
-                $subject = $data['subject'];
-                $body = $data['body'];
-                
-                // Send E-mail
-               if(!$this->mailSender->sendMail('no-reply@example.com', $email, 
-                        $subject, $body)) {
-                    // In case of error, redirect to "Error Sending Email" page
-                    return $this->redirect()->toRoute('application', 
-                            ['action'=>'sendError']);
-                }
-                
-                // Redirect to "Thank You" page
-                return $this->redirect()->toRoute('application', 
-                        ['action'=>'thankYou']);
-            }               
-        } 
-        
-        // Pass form variable to view
-        return new ViewModel([
-            'form' => $form
-        ]);
-         
-    }
-    /**
-     * This action displays the Thank You page. The user is redirected to this
-     * page on successful mail delivery.
-     */
-    public function thankYouAction() 
-    {
-        return new ViewModel();
-    }
+    // Действие, демонстрирующее использование частичных представлений.
+public function partialDemoAction() 
+{
+    $products = [
+        [
+            'id' => 1,
+            'name' => 'Digital Camera',
+            'price' => 99.95,
+        ],
+        [
+            'id' => 2,
+            'name' => 'Tripod',
+            'price' => 29.95,
+        ],
+        [
+            'id' => 3,
+            'name' => 'Camera Case',
+            'price' => 2.99,
+        ],
+        [
+            'id' => 4,
+            'name' => 'Batteries',
+            'price' => 39.99,
+        ],
+        [
+            'id' => 5,
+            'name' => 'Charger',
+            'price' => 29.99,
+        ],
+    ];
+	
+    return new ViewModel(['products' => $products]);
+}
+
     
-    /**
-     * This action displays the Send Error page. The user is redirected to this
-     * page on mail delivery error.
-     */
-    public function sendErrorAction() 
-    {
-        return new ViewModel();
-    }
 }
